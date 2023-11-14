@@ -1,21 +1,15 @@
 import { useEffect, useState } from "react";
 import { ApodType } from "../types/apod.type";
+import { getApod } from "../services/apod.service";
 
 const Apod = () => {
     const [apod, setApod]= useState<ApodType | null>(null); 
 
     useEffect(() => {
-        const getApod = async () => {
-            try {
-                const res = await fetch('http://localhost:8080/api/v1/apod');
-                const data: ApodType = await res.json(); 
-
-                setApod(data);
-            } catch(e) {
-                console.log(e);
-            }
-        }
-        getApod(); 
+        (async () => {
+            const apod = await getApod(); 
+            setApod(apod);
+        })();
     }, []); 
     
     return(
